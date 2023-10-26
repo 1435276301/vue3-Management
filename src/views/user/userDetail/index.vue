@@ -24,6 +24,7 @@ const getUserList = async () => {
       )
     else return item
   })
+
   // 用筛选出来的新数据使用slice进行分页处理，之后传给nserList
   userList.value = res.data.slice(
     (page.value - 1) * pageSize.value, // 默认是0*10 = 0
@@ -113,12 +114,11 @@ const userRules = {
 }
 // 添加用户确定按钮
 const addUserConfirm = async () => {
+  let item
   await userRef.value.validate()
-  const item = userList.value.some(
-    (item: any) => item.userName === user.userName
-  )
   if (isEdit.value) await updateUserAPI(user)
   else {
+    item = userList.value.some((item: any) => item.userName === user.userName)
     if (item) ElMessage.error('账号已存在!')
     else await addUserAPI(user)
   }
@@ -159,9 +159,7 @@ const searchList = ref('')
 
 // 点击搜索按钮回调
 const goSeacrh = () => {
-  if (searchList.value !== '') {
-    getUserList()
-  }
+  getUserList()
 }
 </script>
 <template>
@@ -169,7 +167,7 @@ const goSeacrh = () => {
     <!-- 搜索和添加 -->
     <div class="search">
       <el-input
-        placeholder="请输入姓名"
+        placeholder="请输入搜索内容"
         class="input-with-select"
         v-model="searchList"
       >
