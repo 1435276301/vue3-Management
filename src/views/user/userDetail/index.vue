@@ -32,7 +32,6 @@ const getUserList = async () => {
   // 获取用户列表的总长度
   total.value = res.data.length
 }
-
 onMounted(() => {
   getUserList()
 })
@@ -50,7 +49,6 @@ const addUser = (row) => {
       Object.assign(user, row)
     } else {
       delete user.id
-
       isEdit.value = false
     }
   })
