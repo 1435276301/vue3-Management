@@ -8,6 +8,9 @@ dependencies:
   '@element-plus/icons-vue':
     specifier: ^2.1.0
     version: registry.npmmirror.com/@element-plus/icons-vue@2.1.0(vue@3.3.4)
+  add:
+    specifier: ^2.0.6
+    version: registry.npmmirror.com/add@2.0.6
   axios:
     specifier: ^1.5.1
     version: registry.npmmirror.com/axios@1.5.1
@@ -32,12 +35,18 @@ dependencies:
   scss:
     specifier: ^0.2.4
     version: registry.npmmirror.com/scss@0.2.4
+  uuid:
+    specifier: ^9.0.1
+    version: registry.npmmirror.com/uuid@9.0.1
   vue:
     specifier: ^3.3.4
     version: registry.npmmirror.com/vue@3.3.4
   vue-router:
     specifier: ^4.2.5
     version: registry.npmmirror.com/vue-router@4.2.5(vue@3.3.4)
+  yarn:
+    specifier: link:C:/Program Files/Git/yarn
+    version: link:C:/Program Files/Git/yarn
 
 devDependencies:
   '@rushstack/eslint-patch':
@@ -1121,6 +1130,12 @@ packages:
     engines: {node: '>=0.4.0'}
     hasBin: true
     dev: true
+
+  registry.npmmirror.com/add@2.0.6:
+    resolution: {integrity: sha512-j5QzrmsokwWWp6kUcJQySpbG+xfOBqqKnup3OIk1pz+kB/80SLorZ9V8zHFLO92Lcd+hbvq8bT+zOGoPkmBV0Q==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/add/-/add-2.0.6.tgz}
+    name: add
+    version: 2.0.6
+    dev: false
 
   registry.npmmirror.com/ajv@6.12.6:
     resolution: {integrity: sha512-j3fVLgvTo527anyYyJOGTYJbG+vnnQYvE0m5mmkc1TK+nxAppkCLMIL0aZ4dblVCNoGShhm+kzE4ZUykBoMg4g==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/ajv/-/ajv-6.12.6.tgz}
@@ -3805,6 +3820,13 @@ packages:
     name: utils-merge
     version: 1.0.1
     engines: {node: '>= 0.4.0'}
+    dev: false
+
+  registry.npmmirror.com/uuid@9.0.1:
+    resolution: {integrity: sha512-b+1eJOlsR9K8HJpow9Ok3fiWOWSIcIzXodvv0rQjVoOVNpWMpxf1wZNpt4y9h10odCNrqnYp1OBzRktckBe3sA==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/uuid/-/uuid-9.0.1.tgz}
+    name: uuid
+    version: 9.0.1
+    hasBin: true
     dev: false
 
   registry.npmmirror.com/validate-npm-package-license@3.0.4:

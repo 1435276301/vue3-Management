@@ -121,4 +121,43 @@ router.get('/defaultAuth', (req, res) => {
   })
 })
 
+// 获取商品分类
+router.get('/goodsCategory', (req, res) => {
+  const sql = 'select * from productcategory'
+  db.query(sql, (err, data) => {
+    if (err) throw err
+    res.send({ code: 200, data, msg: '获取商品分类列表成功' })
+  })
+})
+
+// 添加商品分类
+router.post('/addGoodsCategory', (req, res) => {
+  const sql = `INSERT INTO productcategory (categoryName) values (?)  `
+  db.query(sql, req.body['data[data]'], (err) => {
+    if (err) throw err
+    res.send({ code: 200, msg: '添加商品分类成功' })
+  })
+})
+
+// 删除商品分类
+router.post('/deleteGoodsCategory', (req, res) => {
+  const newData = JSON.parse(req.body.data)
+  delete newData.id
+  const sql = `update productcategory set categoryName = ? where id = ${
+    JSON.parse(req.body.data).id
+  }`
+  db.query(sql, JSON.stringify(newData), (err) => {
+    if (err) throw err
+    res.send({ code: 200, msg: '修改商品分类成功' })
+  })
+})
+// 删除一级分类
+router.delete('/deleteGoodsCategoryOne', (req, res) => {
+  const sql = `delete from productcategory where id = ${req.body.id}`
+  db.query(sql, (err) => {
+    if (err) throw err
+    res.send({ code: 200, msg: '删除商品分类成功' })
+  })
+})
+
 module.exports = router

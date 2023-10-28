@@ -130,7 +130,7 @@ onMounted(() => {
       margin: 10px;
     }
     .body {
-      height: 100vh;
+      height: calc(100vh - 110px);
       .card {
         margin: 10px auto;
         width: calc(100vw - 10vw - 50px);

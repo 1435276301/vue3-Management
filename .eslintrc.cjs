@@ -17,7 +17,8 @@ module.exports = {
     ElMessageBox: 'readonly',
     ElLoading: 'readonly',
     require: 'readonly',
-    module: 'readonly'
+    module: 'readonly',
+    ElNotification: 'readonly'
   },
   rules: {
     'prettier/prettier': [

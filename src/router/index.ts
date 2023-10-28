@@ -66,18 +66,7 @@ const router = createRouter({
               meta: {
                 select: false,
                 level: 2
-              },
-              children: [
-                {
-                  path: '/abc',
-                  redirect: 'abc',
-                  name: '产品测试',
-                  meta: {
-                    select: false,
-                    level: 2
-                  }
-                }
-              ]
+              }
             }
           ]
         }
