@@ -139,13 +139,13 @@ const handlePreview = (row: { url: string }) => {
 const dialogImageUrl = ref('')
 
 const onSubmit = async () => {
-  console.log(productData.value)
   productData.value.goodsCategory = JSON.stringify(
     productData.value.goodsCategory
   )
   productData.value.goodsDetail = quillEditor.value.getHTML()
   const res = await updateGoodsAPI(productData.value)
-  console.log(res)
+  ElMessage.success(res.msg)
+  drawer.value = false
 }
 
 const upload = ref<UploadInstance>()
