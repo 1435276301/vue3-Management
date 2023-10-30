@@ -56,7 +56,19 @@ const router = createRouter({
               meta: {
                 select: false,
                 level: 2
-              }
+              },
+              children: [
+                {
+                  path: '/addProduct',
+                  name: '添加产品',
+                  component: () =>
+                    import('@/views/product/productList/addProduct.vue'),
+                  meta: {
+                    select: false,
+                    level: 3
+                  }
+                }
+              ]
             },
             {
               path: '/productCategory',

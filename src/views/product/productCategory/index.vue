@@ -478,15 +478,17 @@ const total = ref(0)
   </el-dialog>
 
   <!-- 分页内容 -->
-  <el-pagination
-    v-model:current-page="page"
-    v-model:page-size="pageSize"
-    :page-sizes="[3, 5, 8, 10]"
-    layout="prev, pager, next, jumper,->,sizes,total"
-    :total="total"
-    @size-change="handleSizeChange"
-    @current-change="handleCurrentChange"
-  />
+  <div style="margin: 10px">
+    <el-pagination
+      v-model:current-page="page"
+      v-model:page-size="pageSize"
+      :page-sizes="[3, 5, 8, 10]"
+      layout="prev, pager, next, jumper,->,sizes,total"
+      :total="total"
+      @size-change="handleSizeChange"
+      @current-change="handleCurrentChange"
+    />
+  </div>
 </template>
 
 <style lang="scss" scoped>

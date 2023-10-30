@@ -205,7 +205,7 @@ const goSeacrh = () => {
       </el-table>
     </div>
     <!-- 分页 -->
-    <div class="page">
+    <div class="page" style="margin: 10px">
       <el-pagination
         v-model:current-page="page"
         v-model:page-size="pageSize"

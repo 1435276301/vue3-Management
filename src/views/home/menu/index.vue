@@ -10,18 +10,34 @@ defineOptions({
 })
 </script>
 <template>
-  <template v-for="item in isRouter" :key="item.path">
-    <el-sub-menu :index="item.path" :unique-opened="true" v-if="item.children">
+  <template v-for="item in isRouter" :key="item">
+    <!-- 没有子路由 -->
+    <template v-if="!item.children">
+      <el-menu-item :index="item.path" v-if="!item.meta.select">
+        <template #title>
+          <span>
+            {{ item.name }}
+          </span>
+        </template>
+      </el-menu-item>
+    </template>
+    <!-- 有子路由，但是只有一个子路由 -->
+    <template v-if="item.children && item.children.length == 1">
+      <el-menu-item :index="item.path" v-if="!item.meta.select">
+        <template #title>
+          <span>{{ item.name }}</span>
+        </template>
+      </el-menu-item>
+    </template>
+    <!-- 有子路由，但是有多个子路由 -->
+    <el-sub-menu
+      :index="item.path"
+      v-if="item.children && item.children.length > 1"
+    >
       <template #title>
         <span>{{ item.name }}</span>
       </template>
-      <template v-for="children in item.children" :key="children.path">
-        <el-menu-item :index="children.path" v-if="!children.children">
-          {{ children.name }}</el-menu-item
-        >
-        <!-- 使用递归组件的方式重复渲染子路由 -->
-        <Menu :isRouter="item.children" v-else />
-      </template>
+      <Menu :isRouter="item.children"></Menu>
     </el-sub-menu>
   </template>
 </template>

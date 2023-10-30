@@ -160,4 +160,39 @@ router.delete('/deleteGoodsCategoryOne', (req, res) => {
   })
 })
 
+// 获取商品列表
+router.get('/goodsList', (req, res) => {
+  const sql = 'select * from goods'
+  db.query(sql, (err, data) => {
+    if (err) throw err
+    res.send({ code: 200, data, msg: '获取商品列表成功' })
+  })
+})
+
+// 添加商品
+router.post('/addGoods', (req, res) => {
+  const sql = `INSERT INTO goods set ?`
+  db.query(sql, req.body, (err) => {
+    if (err) throw err
+    res.send({ code: 200, msg: '添加商品成功' })
+  })
+})
+
+// 删除商品
+router.delete('/deleteGoods', (req, res) => {
+  const sql = `delete from goods where id = ${req.body.id}`
+  db.query(sql, (err) => {
+    if (err) throw err
+    res.send({ code: 200, msg: '删除商品成功' })
+  })
+})
+
+// 修改商品
+router.post('/updateGoods', (req, res) => {
+  const sql = `update goods set ? where id = ${req.body.id}`
+  db.query(sql, req.body, (err) => {
+    if (err) throw err
+    res.send({ code: 200, msg: '修改商品成功' })
+  })
+})
 module.exports = router

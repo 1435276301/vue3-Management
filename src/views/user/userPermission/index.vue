@@ -298,16 +298,17 @@ const deleteRole = async (row: { id: number; role: string }) => {
     </div>
   </el-dialog>
   <!-- 分页功能 -->
-
-  <el-pagination
-    v-model:current-page="page"
-    v-model:page-size="pageSize"
-    :page-sizes="[3, 5, 10]"
-    layout="prev, pager, next, jumper,->,sizes,total"
-    :total="total"
-    @size-change="handleSizeChange"
-    @current-change="handleCurrentChange"
-  />
+  <div style="margin: 10px">
+    <el-pagination
+      v-model:current-page="page"
+      v-model:page-size="pageSize"
+      :page-sizes="[3, 5, 10]"
+      layout="prev, pager, next, jumper,->,sizes,total"
+      :total="total"
+      @size-change="handleSizeChange"
+      @current-change="handleCurrentChange"
+    />
+  </div>
 </template>
 
 <style lang="scss" scoped>

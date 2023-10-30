@@ -16,8 +16,6 @@ request.interceptors.request.use(
   (res: AxiosRequestConfig) => {
     // 在发送请求前做点什么
 
-    res.headers['Content-Type'] =
-      'application/x-www-form-urlencoded;charset=utf-8'
     return res
   },
   (error) => {
