@@ -1,5 +1,7 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import { useUserStore } from '@/stores/login'
+import NProgress from 'nprogress'
+import 'nprogress/nprogress.css'
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
@@ -107,6 +109,7 @@ const router = createRouter({
 
 // 路由守卫拦截
 router.beforeEach((to) => {
+  NProgress.start()
   const userStore = useUserStore()
   if (!userStore.token && to.path !== '/login') {
     ElMessage.error('请先登录')
@@ -118,5 +121,8 @@ router.beforeEach((to) => {
     ElMessage.warning('权限不足')
     return router.push('/login')
   }
+})
+router.afterEach((to, from) => {
+  NProgress.done()
 })
 export default router
