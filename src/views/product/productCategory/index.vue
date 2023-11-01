@@ -20,7 +20,6 @@ const getGoodsList = async () => {
       }
     })
     .slice(page.value - 1 * pageSize.value, page.value * pageSize.value)
-  console.log(goodsList.value)
 
   total.value = res.data.length
 }

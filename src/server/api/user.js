@@ -1,7 +1,9 @@
 const db = require('../db/index')
 const router = require('../router')
+const jwt = require('jsonwebtoken')
+const errorHandler = require('../middleware/errorhandler')
 // 添加用户
-router.post('/addUser', (req, res) => {
+router.post('/addUser', errorHandler, (req, res) => {
   const sql = 'insert into user set ?'
   db.query(sql, req.body, (err, data) => {
     if (err) res.send({ code: 500, msg: err.message })
@@ -9,7 +11,7 @@ router.post('/addUser', (req, res) => {
   })
 })
 // 修改用户
-router.post('/updateUser', (req, res) => {
+router.post('/updateUser', errorHandler, (req, res) => {
   const sql = 'update user set ? where id = ?'
   db.query(sql, [req.body, req.body.id], (err, data) => {
     if (err) res.send({ code: 500, msg: err.message })
@@ -18,7 +20,7 @@ router.post('/updateUser', (req, res) => {
 })
 
 // 删除用户
-router.delete('/deleteUser', (req, res) => {
+router.delete('/deleteUser', errorHandler, (req, res) => {
   const sql = 'delete from user where id = ?'
   db.query(sql, req.body.id, (err, data) => {
     if (err) res.send({ code: 500, msg: err.message })
@@ -26,7 +28,7 @@ router.delete('/deleteUser', (req, res) => {
   })
 })
 // 获取账号信息
-router.get('/user', (req, res) => {
+router.get('/user', errorHandler, (req, res) => {
   const sql = 'select * from user'
   db.query(sql, (err, data) => {
     if (err) {
@@ -37,7 +39,7 @@ router.get('/user', (req, res) => {
   })
 })
 // 添加角色
-router.post('/addRole', (req, res) => {
+router.post('/addRole', errorHandler, (req, res) => {
   if (req.body.id) {
     const sql = 'update role set role=?,`describe`=? where id = ?'
     db.query(sql, [req.body.role, req.body.describe, req.body.id], (err) => {
@@ -54,7 +56,7 @@ router.post('/addRole', (req, res) => {
 })
 
 // 获取角色信息
-router.get('/role', (req, res) => {
+router.get('/role', errorHandler, (req, res) => {
   const sql = 'select * from role'
   db.query(sql, (err, data) => {
     if (err) throw err
@@ -63,7 +65,7 @@ router.get('/role', (req, res) => {
 })
 
 // 删除角色
-router.delete('/delRole', (req, res) => {
+router.delete('/delRole', errorHandler, (req, res) => {
   const sql = 'delete from role where id = ?'
   db.query(sql, req.body.id, (err) => {
     if (err) throw err
@@ -71,7 +73,7 @@ router.delete('/delRole', (req, res) => {
   })
 })
 // 设置权限信息
-router.post('/setAuth', async (req, res) => {
+router.post('/setAuth', errorHandler, (req, res) => {
   const data = JSON.parse(JSON.stringify(req.body))
   const level1 = data['level1[]']
   const level2 = data['level2[]']
@@ -113,7 +115,7 @@ const deletePermission = (res, roleId) => {
   })
 }
 // 获取默认权限
-router.get('/defaultAuth', (req, res) => {
+router.get('/defaultAuth', errorHandler, (req, res) => {
   const sql = 'select * from permission where roleId = ?'
   db.query(sql, req.query.id, (err, data) => {
     if (err) throw err
@@ -122,7 +124,7 @@ router.get('/defaultAuth', (req, res) => {
 })
 
 // 获取商品分类
-router.get('/goodsCategory', (req, res) => {
+router.get('/goodsCategory', errorHandler, (req, res) => {
   const sql = 'select * from productcategory'
   db.query(sql, (err, data) => {
     if (err) throw err
@@ -131,7 +133,7 @@ router.get('/goodsCategory', (req, res) => {
 })
 
 // 添加商品分类
-router.post('/addGoodsCategory', (req, res) => {
+router.post('/addGoodsCategory', errorHandler, (req, res) => {
   const sql = `INSERT INTO productcategory (categoryName) values (?)  `
   db.query(sql, req.body['data[data]'], (err) => {
     if (err) throw err
@@ -140,7 +142,7 @@ router.post('/addGoodsCategory', (req, res) => {
 })
 
 // 删除商品分类
-router.post('/deleteGoodsCategory', (req, res) => {
+router.post('/deleteGoodsCategory', errorHandler, (req, res) => {
   const newData = JSON.parse(req.body.data)
   delete newData.id
   const sql = `update productcategory set categoryName = ? where id = ${
@@ -152,7 +154,7 @@ router.post('/deleteGoodsCategory', (req, res) => {
   })
 })
 // 删除一级分类
-router.delete('/deleteGoodsCategoryOne', (req, res) => {
+router.delete('/deleteGoodsCategoryOne', errorHandler, (req, res) => {
   const sql = `delete from productcategory where id = ${req.body.id}`
   db.query(sql, (err) => {
     if (err) throw err
@@ -161,7 +163,7 @@ router.delete('/deleteGoodsCategoryOne', (req, res) => {
 })
 
 // 获取商品列表
-router.get('/goodsList', (req, res) => {
+router.get('/goodsList', errorHandler, (req, res) => {
   const sql = 'select * from goods'
   db.query(sql, (err, data) => {
     if (err) throw err
@@ -170,7 +172,7 @@ router.get('/goodsList', (req, res) => {
 })
 
 // 添加商品
-router.post('/addGoods', (req, res) => {
+router.post('/addGoods', errorHandler, (req, res) => {
   const sql = `INSERT INTO goods set ?`
   db.query(sql, req.body, (err) => {
     if (err) throw err
@@ -179,7 +181,7 @@ router.post('/addGoods', (req, res) => {
 })
 
 // 删除商品
-router.delete('/deleteGoods', (req, res) => {
+router.delete('/deleteGoods', errorHandler, (req, res) => {
   const sql = `delete from goods where id = ${req.body.id}`
   db.query(sql, (err) => {
     if (err) throw err
@@ -188,11 +190,30 @@ router.delete('/deleteGoods', (req, res) => {
 })
 
 // 修改商品
-router.post('/updateGoods', (req, res) => {
+router.post('/updateGoods', errorHandler, (req, res) => {
   const sql = `update goods set ? where id = ${req.body.id}`
   db.query(sql, req.body, (err) => {
     if (err) throw err
     res.send({ code: 200, msg: '修改商品成功' })
   })
 })
+const secret = 'ultraman' //解密密钥
+// 登录
+router.post('/login', (req, res) => {
+  const sql = `select * from user where userName = '${req.body.username}' and userPwd = '${req.body.password}'`
+  db.query(sql, (err, data) => {
+    if (err) throw err
+    if (data.length === 0) {
+      res.send({ code: 400, msg: '用户名或密码错误' })
+    } else {
+      // 生成token
+      let token = jwt.sign({ userName: req.body.username }, secret, {
+        expiresIn: '1h'
+      })
+      res.header('Authorization', token)
+      res.send({ code: 200, data: { data, token }, msg: '登录成功' })
+    }
+  })
+})
+
 module.exports = router

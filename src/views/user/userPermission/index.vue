@@ -6,6 +6,8 @@ import { nextTick, onMounted, reactive, ref } from 'vue'
 import { useRoute } from 'vue-router'
 import { TreeType } from './index'
 import { ElMessageBox } from 'element-plus'
+import { useUserStore } from '@/stores/login'
+const userStore = useUserStore()
 const route = useRoute()
 // 定义角色列表
 const roleList = ref()
@@ -16,7 +18,8 @@ const getRoleList = async () => {
     (page.value - 1) * pageSize.value,
     page.value * pageSize.value
   )
-  tree.value = route.matched[0].children as any
+
+  tree.value = JSON.parse(JSON.stringify(route.matched[0].children as any))
   total.value = res.data.length
 }
 const total = ref(0)
@@ -61,6 +64,7 @@ const permission = async (row: any) => {
 const rendering = async (id: number) => {
   defaultExpandedKeys.value = {}
   const res = await getRolePErmissionAPI(id)
+
   if (res.data.length > 0) {
     defaultExpandedKeys.value.level1 =
       JSON.parse(res.data[0].level1) instanceof Array
@@ -87,15 +91,13 @@ const rendering = async (id: number) => {
   }
 }
 
+const datas = ref()
 // 点击节点复选框的回调
 const onCheck = () => {
-  const datas = Tree.value.getCheckedNodes(false, true)
-
-  selectList(datas)
+  datas.value = Tree.value.getCheckedNodes(false, true)
 }
 const selectList = (data: any[]) => {
   newList.value = data.filter((item: any) => {
-    // if (item.children && item.children.length > 0) selectList(item.children)
     item.meta.select = true
     return item.meta.select
   })
@@ -103,7 +105,10 @@ const selectList = (data: any[]) => {
 
 const Tree = ref<any>(null)
 const newList = ref([])
+
+// 点击确定按钮回调
 const onTree = async () => {
+  selectList(datas.value)
   tree.value.forEach((item: any) => {
     const isItem = newList.value.some((item2: any) => item2.name === item.name)
     if (isItem) item.meta.select = true
@@ -117,19 +122,23 @@ const onTree = async () => {
     .map((item: any) => item.name) // 之后将筛选出来的节点名称赋值给level1
 
   const level2 = newList.value
-    .filter((item: any) => !level1.includes(item.name))
+    .filter((item: any) => item.meta.level === 2 || !item.children)
     .map((item: any) => item.name)
-
   const res = await setRolePermissionAPI({
     id: id.value,
     level1,
     level2
   })
   ElMessage.success(res.msg)
-
+  if (JSON.parse(userStore.permission).roleId === id.value) {
+    await userStore.setPermissionId(id.value)
+  } else {
+    location.reload()
+  }
+  emit('getRouter')
   dialogVisible.value = false
 }
-
+const emit = defineEmits(['getRouter'])
 const roleDisplay = ref(false)
 
 // 添加角色回调
@@ -168,12 +177,15 @@ const createRole = async () => {
   getRoleList()
   roleDisplay.value = false
 }
+
 const onHeader = (event: { id: number }) => {
   tree.value.forEach((item: any) => {
-    item.children.forEach((item2: any) => {
-      item2.meta.select = false
-    })
-    item.meta.select = false
+    if (item.children) {
+      item.children.forEach((item2: any) => {
+        item2.meta.select = false
+      })
+      item.meta.select = false
+    }
   })
 
   rendering(event.id)

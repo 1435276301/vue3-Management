@@ -1,5 +1,27 @@
 <script setup lang="ts">
+import { loginAPI } from '@/api/login'
 import { Avatar, Lock } from '@element-plus/icons-vue'
+import { ref } from 'vue'
+import { useRouter } from 'vue-router'
+const router = useRouter()
+import { useUserStore } from '@/stores/login'
+const userStore = useUserStore()
+const login = ref({
+  username: '',
+  password: ''
+})
+const loading = ref(false)
+const goLogin = async () => {
+  loading.value = true
+  const res = await loginAPI(login.value)
+  userStore.getUserInfo(res.data)
+
+  loading.value = false
+  ElMessage.success(res.msg)
+  setTimeout(() => {
+    router.replace('/')
+  }, 500)
+}
 </script>
 <template>
   <div class="login">
@@ -14,25 +36,40 @@ import { Avatar, Lock } from '@element-plus/icons-vue'
         </div>
         <div class="div">
           <el-form>
-            <el-form-item size="normal">
+            <el-form-item>
               <template #label>
                 <div class="div">
                   <el-icon><Avatar /></el-icon>
-                  <input type="text" placeholder="请输入手机号码/账号" />
+                  <input
+                    type="text"
+                    placeholder="请输入手机号码/账号"
+                    v-model="login.username"
+                  />
                 </div>
               </template>
             </el-form-item>
-            <el-form-item size="normal">
+            <el-form-item>
               <template #label>
                 <div class="div">
                   <el-icon><Lock /></el-icon>
-                  <input type="text" placeholder="请输入密码" />
+                  <input
+                    type="text"
+                    placeholder="请输入密码"
+                    v-model="login.password"
+                  />
                 </div>
               </template>
             </el-form-item>
             <el-form-item>
               <div class="btn">
-                <el-button type="primary" size="default">立即登录</el-button>
+                <el-button
+                  type="primary"
+                  size="default"
+                  @click="goLogin"
+                  :disabled="login.username && !login.password"
+                  :loading="loading"
+                  >立即登录</el-button
+                >
               </div>
             </el-form-item>
           </el-form>

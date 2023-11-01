@@ -14,6 +14,7 @@ const userList = ref([])
 // 获取用户列表
 const getUserList = async () => {
   const res = await getUserAPI()
+
   // 先筛选出搜索框是否输入了值，输入了值的话就把新数据传给res，没输入就传入他本身，之后将筛选出来的长度给分页的总长度
   res.data = res.data.filter((item: any) => {
     if (searchList.value !== '')
@@ -67,9 +68,9 @@ const user = reactive({
   userName: '',
   userPwd: '',
   role: '',
+  roleId: '',
   id: '',
-  image:
-    'https://gd-hbimg.huaban.com/871aa2b9b0a55be3f0738d76a15e23ebac5c586811e29-B6Aozr_fw658webp'
+  image: ''
 })
 //表单校验规则
 const userRules = {
@@ -161,6 +162,13 @@ const searchList = ref('')
 const goSeacrh = () => {
   getUserList()
 }
+
+// 下拉选择发生变化的时候调用
+const onChange = (val) => {
+  roleList.value.forEach((item: any) => {
+    if (item.role === val) user.roleId = item.id
+  })
+}
 </script>
 <template>
   <div>
@@ -239,7 +247,11 @@ const goSeacrh = () => {
           <el-input v-model="user.userPwd"></el-input>
         </el-form-item>
         <el-form-item label="角色" prop="role">
-          <el-select placeholder="请选择角色" v-model="user.role">
+          <el-select
+            placeholder="请选择角色"
+            v-model="user.role"
+            @change="onChange"
+          >
             <el-option
               v-for="item in roleList"
               :key="item.id"

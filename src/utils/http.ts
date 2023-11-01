@@ -1,5 +1,6 @@
+import router from '@/router'
 import axios, { AxiosRequestConfig, AxiosResponse } from 'axios'
-
+import { useUserStore } from '@/stores/login'
 // 声明ts类型
 export type Result<T = any> = {
   code: number
@@ -9,13 +10,21 @@ export type Result<T = any> = {
 // 创建axios实例
 const request = axios.create({
   baseURL: 'http://127.0.0.1:3030',
-  timeout: 5000
+  timeout: 5000,
+  headers: {
+    'Content-Type': 'application/json' // 设置请求头
+  }
 })
 // 请求拦截器
 request.interceptors.request.use(
   (res: AxiosRequestConfig) => {
     // 在发送请求前做点什么
-
+    // 携带token
+    const userStore = useUserStore()
+    const token = userStore.token
+    if (token) {
+      res.headers.Authorization = `Bearer ${token}`
+    }
     return res
   },
   (error) => {
@@ -27,6 +36,11 @@ request.interceptors.request.use(
 // 响应拦截器
 request.interceptors.response.use(
   (res: AxiosResponse<Result>) => {
+    if (res.data.code == 401) {
+      ElMessage.error('登录过期，请重新登录')
+      router.replace('/login')
+      return Promise.reject(res.data.msg)
+    }
     return res.data
   },
   (error) => {
