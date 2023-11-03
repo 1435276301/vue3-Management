@@ -201,6 +201,7 @@ const secret = 'ultraman' //解密密钥
 // 登录
 router.post('/login', (req, res) => {
   const sql = `select * from user where userName = '${req.body.username}' and userPwd = '${req.body.password}'`
+
   db.query(sql, (err, data) => {
     if (err) throw err
     if (data.length === 0) {

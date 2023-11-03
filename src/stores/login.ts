@@ -8,17 +8,17 @@ export const useUserStore = defineStore(
   'user',
   () => {
     const token = ref()
-    const userInfo = ref<DataList>('')
+    const userInfo = ref<DataList>()
     const getUserInfo = (data: DataList) => {
       userInfo.value = data.data
       setToken(data.token)
       setPermissionId(data.data[0].roleId)
     }
-    const setToken = (id) => {
+    const setToken = (id: string | number) => {
       token.value = id
     }
     const permission = ref()
-    const setPermissionId = async (id) => {
+    const setPermissionId = async (id: string | number) => {
       const res = await getRolePErmissionAPI(id)
       console.log(res)
 

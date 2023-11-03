@@ -1,4 +1,4 @@
-import request, { Result } from '@/utils/http'
+import request, { type Result } from '@/utils/http'
 import type { DataList } from './goods.d'
 // 获取商品分类列表
 export const getGoodsCategoryAPI = () => {

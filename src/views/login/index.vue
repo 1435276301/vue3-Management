@@ -14,13 +14,16 @@ const loading = ref(false)
 const goLogin = async () => {
   loading.value = true
   const res = await loginAPI(login.value)
-  userStore.getUserInfo(res.data)
-
+  if (res.code === 400) {
+    ElMessage.error(res.msg)
+  } else {
+    userStore.getUserInfo(res.data)
+    ElMessage.success(res.msg)
+    setTimeout(() => {
+      router.replace('/')
+    }, 500)
+  }
   loading.value = false
-  ElMessage.success(res.msg)
-  setTimeout(() => {
-    router.replace('/')
-  }, 500)
 }
 </script>
 <template>
@@ -53,6 +56,7 @@ const goLogin = async () => {
                 <div class="div">
                   <el-icon><Lock /></el-icon>
                   <input
+                    @keydown.enter="goLogin"
                     type="text"
                     placeholder="请输入密码"
                     v-model="login.password"

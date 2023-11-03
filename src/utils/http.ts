@@ -1,5 +1,5 @@
 import router from '@/router'
-import axios, { AxiosRequestConfig, AxiosResponse } from 'axios'
+import axios, { type AxiosRequestConfig, type AxiosResponse } from 'axios'
 import { useUserStore } from '@/stores/login'
 // 声明ts类型
 export type Result<T = any> = {
@@ -7,9 +7,12 @@ export type Result<T = any> = {
   msg: string
   data: T
 }
+
+const baseIP = import.meta.env.BASE_IP
+console.log(baseIP)
 // 创建axios实例
 const request = axios.create({
-  baseURL: 'http://127.0.0.1:3030',
+  baseURL: baseIP,
   timeout: 5000,
   headers: {
     'Content-Type': 'application/json' // 设置请求头
@@ -35,7 +38,7 @@ request.interceptors.request.use(
 
 // 响应拦截器
 request.interceptors.response.use(
-  (res: AxiosResponse<Result>) => {
+  (res: AxiosResponse<Result<any>>) => {
     if (res.data.code == 401) {
       ElMessage.error('登录过期，请重新登录')
       router.replace('/login')

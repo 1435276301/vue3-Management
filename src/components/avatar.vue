@@ -14,7 +14,7 @@ const user = ref({
   name: prop.name
 })
 
-const onUpdateAvatar = (file) => {
+const onUpdateAvatar = (file: { file: any }) => {
   //option.file就是头像文件
   const uploadFile = file.file
   /* 验证头像格式和大小 */

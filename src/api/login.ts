@@ -1,4 +1,4 @@
-import request, { Result } from '@/utils/http'
+import request, { type Result } from '@/utils/http'
 // 定义角色列表的信息
 export type Data = {
   id: number
@@ -13,6 +13,6 @@ export type Data = {
 export type DataList = Data[]
 
 // 登录
-export const loginAPI = (data) => {
+export const loginAPI = (data: any) => {
   return request.post<any, Result<DataList>>('/login', data)
 }

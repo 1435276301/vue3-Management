@@ -5,6 +5,7 @@
   "scripts": {
     "dev": "vite",
     "build": "run-p type-check \"build-only {@}\" --",
+    "build:no-vue-tsc": "vite build",
     "preview": "vite preview",
     "build-only": "vite build",
     "type-check": "vue-tsc --noEmit -p tsconfig.app.json --composite false",
@@ -26,6 +27,7 @@
     "jsonwebtoken": "^9.0.2",
     "mysql": "^2.18.1",
     "nprogress": "^0.2.0",
+    "os": "^0.1.2",
     "pinia": "^2.1.7",
     "pinia-plugin-persistedstate": "^3.2.0",
     "qs": "^6.11.2",

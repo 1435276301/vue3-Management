@@ -64,6 +64,7 @@ const permission = async (row: any) => {
 const rendering = async (id: number) => {
   defaultExpandedKeys.value = {}
   const res = await getRolePErmissionAPI(id)
+  console.log(res)
 
   if (res.data.length > 0) {
     defaultExpandedKeys.value.level1 =
@@ -79,11 +80,15 @@ const rendering = async (id: number) => {
     tree.value.forEach((item: any) => {
       if (defaultExpandedKeys.value.level1.includes(item.name)) {
         item.meta.select = true
+      } else {
+        item.meta.select = false
       }
       if (item.children) {
         item.children.forEach((item: any) => {
           if (defaultExpandedKeys.value.level2.includes(item.name)) {
             item.meta.select = true
+          } else {
+            item.meta.select = false
           }
         })
       }
@@ -109,13 +114,13 @@ const newList = ref([])
 // 点击确定按钮回调
 const onTree = async () => {
   selectList(datas.value)
-  tree.value.forEach((item: any) => {
+  tree?.value.forEach((item: any) => {
     const isItem = newList.value.some((item2: any) => item2.name === item.name)
     if (isItem) item.meta.select = true
     else item.meta.select = false
   })
   // 如果点击了节点之后点击确定才会切换，否则就提示用户未修改
-  const level1 = tree.value
+  const level1 = tree?.value
     .filter(
       (item: any) => item.meta.select // 查找当前节点的子节点中是否有选中的节点，如果有选中的节点那就筛选出来
     )

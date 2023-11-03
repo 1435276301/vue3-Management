@@ -1,4 +1,4 @@
-import request, { Result } from '@/utils/http'
+import request, { type Result } from '@/utils/http'
 // 获取用户列表
 export const getUserAPI = () => {
   return request.get('/user')

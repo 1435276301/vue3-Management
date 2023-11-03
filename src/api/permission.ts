@@ -8,6 +8,6 @@ export const setRolePermissionAPI = (data: any) => {
   })
 }
 // 获取当前角色的权限
-export const getRolePErmissionAPI = (id) => {
+export const getRolePErmissionAPI = (id: string | number) => {
   return request.get('/defaultAuth', { params: { id } })
 }

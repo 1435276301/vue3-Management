@@ -22,11 +22,13 @@ watch(
 const userInfo = ref<Data>()
 const getInfo = () => {
   userInfo.value = userStore.userInfo[0]
+  console.log(userInfo.value)
 }
 
 // 获取当前路由信息
 const getRoute = () => {
   let route = JSON.parse(userStore.permission)
+
   route.level1 = JSON.parse(route.level1)
   route.level2 = JSON.parse(route.level2)
   // console.log(route)
@@ -243,8 +245,6 @@ const onSwitch = () => {
         display: flex;
 
         justify-content: space-between;
-        .btn {
-        }
       }
       .right-userInfo {
         flex: 1;
