@@ -28,6 +28,7 @@ watch(
 
 const getGoodsList = async () => {
   const res = await getGoodsListAPI()
+
   res.data = res.data.filter((item: any) => {
     if (searchList.value !== '')
       return item.goodsName.includes(searchList.value)

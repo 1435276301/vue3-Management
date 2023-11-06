@@ -57,7 +57,7 @@ const goLogin = async () => {
                   <el-icon><Lock /></el-icon>
                   <input
                     @keydown.enter="goLogin"
-                    type="text"
+                    type="password"
                     placeholder="请输入密码"
                     v-model="login.password"
                   />

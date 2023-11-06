@@ -2,7 +2,7 @@ import router from '@/router'
 import axios, { type AxiosRequestConfig, type AxiosResponse } from 'axios'
 import { useUserStore } from '@/stores/login'
 // 声明ts类型
-export type Result<T = any> = {
+export interface Result<T = any> {
   code: number
   msg: string
   data: T

@@ -13,6 +13,6 @@ export type Data = {
 export type DataList = Data[]
 
 // 登录
-export const loginAPI = (data: any) => {
-  return request.post<any, Result<DataList>>('/login', data)
+export const loginAPI = (data: any): Promise<Result<DataList>> => {
+  return request.post('/login', data)
 }
